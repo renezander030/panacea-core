@@ -1,6 +1,10 @@
 package types
 
-import "github.com/medibloc/panacea-core/v2/types/compkey"
+import (
+	"fmt"
+
+	"github.com/medibloc/panacea-core/v2/types/compkey"
+)
 
 // this line is used by starport scaffolding # ibc/genesistype/import
 
@@ -22,16 +26,22 @@ func DefaultGenesis() *GenesisState {
 // Validate performs basic genesis state validation returning an error upon any
 // failure.
 func (gs GenesisState) Validate() error {
-	for keyStr := range gs.Owners {
+	for keyStr, owner := range gs.Owners {
 		var key OwnerCompositeKey
 		if err := compkey.DecodeFromString(keyStr, GenesisKeySeparator, &key); err != nil {
 			return err
+		}
+		if owner == nil {
+			return fmt.Errorf("owner %q must not be nil", keyStr)
 		}
 	}
 	for keyStr, topic := range gs.Topics {
 		var key TopicCompositeKey
 		if err := compkey.DecodeFromString(keyStr, GenesisKeySeparator, &key); err != nil {
 			return err
+		}
+		if topic == nil {
+			return fmt.Errorf("topic %q must not be nil", keyStr)
 		}
 		if err := topic.Validate(); err != nil {
 			return err
@@ -42,6 +52,9 @@ func (gs GenesisState) Validate() error {
 		if err := compkey.DecodeFromString(keyStr, GenesisKeySeparator, &key); err != nil {
 			return err
 		}
+		if writer == nil {
+			return fmt.Errorf("writer %q must not be nil", keyStr)
+		}
 		if err := writer.Validate(); err != nil {
 			return err
 		}
@@ -50,6 +63,9 @@ func (gs GenesisState) Validate() error {
 		var key RecordCompositeKey
 		if err := compkey.DecodeFromString(keyStr, GenesisKeySeparator, &key); err != nil {
 			return err
+		}
+		if record == nil {
+			return fmt.Errorf("record %q must not be nil", keyStr)
 		}
 		if err := record.Validate(); err != nil {
 			return err
