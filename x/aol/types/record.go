@@ -14,7 +14,7 @@ func (r Record) Validate() error {
 	if err := validateRecordKey(r.Key); err != nil {
 		return err
 	}
-	if err := validateRecordValue(r.Key); err != nil {
+	if err := validateRecordValue(r.Value); err != nil {
 		return err
 	}
 	if _, err := sdk.AccAddressFromBech32(r.WriterAddress); err != nil {
