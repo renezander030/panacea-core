@@ -498,7 +498,7 @@ func (d DIDDocumentWithSeq) Empty() bool {
 }
 
 func (d DIDDocumentWithSeq) Valid() bool {
-	return d.Document.Valid()
+	return d.Document != nil && d.Document.Valid()
 }
 
 // Deactivate creates a new DIDDocumentWithSeq with an empty DIDDocument (tombstone).

@@ -21,7 +21,7 @@ func (data GenesisState) Validate() error {
 			return err
 		}
 
-		if !doc.Valid() {
+		if doc == nil || !doc.Valid() {
 			return errors.Wrapf(ErrInvalidDIDDocumentWithSeq, "DIDDocumentWithSeq: %v", doc)
 		}
 	}
